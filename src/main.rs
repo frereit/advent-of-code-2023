@@ -3,6 +3,7 @@ use anyhow::Result;
 use clap::Parser;
 
 mod day1;
+mod day2;
 mod filemanip;
 
 #[derive(Parser)]
@@ -26,6 +27,9 @@ fn main() -> Result<()> {
         }
         (1, 2) => {
             println!("{:#?}", day1::calculate_calibration_sum(&args.input, true))
+        }
+        (2, 1) => {
+            println!("{:#?}", day2::calculate_valid_game_sum(&args.input))
         }
         (d, c) => {
             return Err(anyhow!("Invalid day / challenge combination: {} {}!", d, c));
