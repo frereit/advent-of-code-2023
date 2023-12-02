@@ -7,6 +7,9 @@ mod filemanip;
 
 #[derive(Parser)]
 struct Cli {
+    /// The day of the challenge
+    day: u8,
+
     /// The challenge number
     challenge: u8,
 
@@ -17,15 +20,15 @@ struct Cli {
 fn main() -> Result<()> {
     let args = Cli::parse();
 
-    match args.challenge {
-        1 => {
+    match (args.day, args.challenge) {
+        (1, 1) => {
             println!("{:#?}", day1::calculate_calibration_sum(&args.input, false))
         }
-        2 => {
+        (1, 2) => {
             println!("{:#?}", day1::calculate_calibration_sum(&args.input, true))
         }
-        _ => {
-            return Err(anyhow!("Invalid challenge number: {}!", args.challenge));
+        (d, c) => {
+            return Err(anyhow!("Invalid day / challenge combination: {} {}!", d, c));
         }
     }
     Ok(())
