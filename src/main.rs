@@ -31,6 +31,9 @@ fn main() -> Result<()> {
         (2, 1) => {
             println!("{:#?}", day2::calculate_valid_game_sum(&args.input))
         }
+        (2, 2) => {
+            println!("{:#?}", day2::calculate_game_power_sum(&args.input))
+        }
         (d, c) => {
             return Err(anyhow!("Invalid day / challenge combination: {} {}!", d, c));
         }

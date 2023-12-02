@@ -82,3 +82,27 @@ pub fn calculate_valid_game_sum(file: &std::path::Path) -> Result<u64> {
     }
     Ok(sum)
 }
+
+pub fn calculate_game_power_sum(file: &std::path::Path) -> Result<u64> {
+    let mut sum: u64 = 0u64;
+    for line in read_lines(file)
+        .context(format!("Failed to read file {:#?}", file))?
+        .flatten()
+    {
+        let game = line.parse::<Game>()?;
+        let mut max = Cubes::default();
+        for round in game.rounds {
+            if round.red > max.red {
+                max.red = round.red;
+            }
+            if round.green > max.green {
+                max.green = round.green;
+            }
+            if round.blue > max.blue {
+                max.blue = round.blue;
+            }
+        }
+        sum += max.red * max.green * max.blue;
+    }
+    Ok(sum)
+}
