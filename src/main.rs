@@ -4,6 +4,7 @@ use clap::Parser;
 
 mod day1;
 mod day2;
+mod day3;
 mod filemanip;
 
 #[derive(Parser)]
@@ -33,6 +34,12 @@ fn main() -> Result<()> {
         }
         (2, 2) => {
             println!("{:#?}", day2::calculate_game_power_sum(&args.input))
+        }
+        (3, 1) => {
+            println!("{:#?}", day3::calculate_schematic_sum(&args.input))
+        }
+        (3, 2) => {
+            println!("{:#?}", day3::calculate_gear_ratio_sum(&args.input))
         }
         (d, c) => {
             return Err(anyhow!("Invalid day / challenge combination: {} {}!", d, c));
