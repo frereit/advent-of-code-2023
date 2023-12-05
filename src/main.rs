@@ -6,6 +6,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 mod filemanip;
 
 #[derive(Parser)]
@@ -47,6 +48,12 @@ fn main() -> Result<()> {
         }
         (4, 2) => {
             println!("{:#?}", day4::calculate_scratchcard_count(&args.input))
+        }
+        (5, 1) => {
+            println!("{:#?}", day5::calculate_lowest_location_number(&args.input))
+        }
+        (5, 2) => {
+            println!("{:#?}", day5::calculate_lowest_location_number_range(&args.input))
         }
         (d, c) => {
             return Err(anyhow!("Invalid day / challenge combination: {} {}!", d, c));
