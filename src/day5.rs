@@ -1,6 +1,6 @@
-use std::{collections::VecDeque, str::FromStr};
-
 use anyhow::{Context, Error, Result};
+use rayon::prelude::*;
+use std::{collections::VecDeque, str::FromStr};
 
 use crate::filemanip::read_lines;
 
@@ -115,15 +115,11 @@ pub fn calculate_lowest_location_number_range(file: &std::path::Path) -> Result<
         .split(' ')
         .flat_map(|s| s.parse::<u64>())
         .collect::<Vec<_>>();
-    dbg!("Raw seeds constructed!");
-    let seeds = raw_seeds
-        .chunks_exact(2)
-        .flat_map(|seed_range| {
-            let start = *seed_range.first().unwrap();
-            let len = *seed_range.get(1).unwrap();
-            start..start + len
-        });
-    dbg!("seed iterator constructed!");
+    let seeds = raw_seeds.par_chunks_exact(2).flat_map(|seed_range| {
+        let start = *seed_range.first().unwrap();
+        let len = *seed_range.get(1).unwrap();
+        start..start + len
+    });
     raw_data.pop_front();
 
     let mut maps = vec![];
@@ -131,15 +127,9 @@ pub fn calculate_lowest_location_number_range(file: &std::path::Path) -> Result<
         maps.push(Map::consume_map(&mut raw_data)?);
     }
 
-    let mut min_location = u64::MAX;
-    // Note: With the given input, this iterates ~2 billion seeds.
-    // At ~10 million a seconnd, this took roughly 200 seconds on my machine.
-    for seed in seeds {
-        let location = maps.iter().fold(seed, |a, map| map.map(a));
-        if location < min_location {
-            min_location = location;
-        }
-    }
+    let min_location = seeds
+        .map(|seed| maps.iter().fold(seed, |a, map| map.map(a)))
+        .min().unwrap();
 
     Ok(min_location)
 }
