@@ -129,7 +129,8 @@ pub fn calculate_lowest_location_number_range(file: &std::path::Path) -> Result<
 
     let min_location = seeds
         .map(|seed| maps.iter().fold(seed, |a, map| map.map(a)))
-        .min().unwrap();
+        .min()
+        .unwrap();
 
     Ok(min_location)
 }
