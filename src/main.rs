@@ -8,6 +8,7 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
+mod day7;
 mod filemanip;
 
 #[derive(Parser)]
@@ -64,6 +65,12 @@ fn main() -> Result<()> {
         }
         (6, 2) => {
             println!("{:#?}", day6::calculate_margin_of_error(&args.input, true))
+        }
+        (7, 1) => {
+            println!("{:#?}", day7::calculate_winning_hands(&args.input, false))
+        }
+        (7, 2) => {
+            println!("{:#?}", day7::calculate_winning_hands(&args.input, true))
         }
         (d, c) => {
             return Err(anyhow!("Invalid day / challenge combination: {} {}!", d, c));
